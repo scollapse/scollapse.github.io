@@ -1,0 +1,355 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>数据结构之树篇 | 少年</title><meta name="description" content="树 树形结构是以分支关系定义的层次结构，是一类重要的非线性数据结构     第一节  树的基本概念1.什么是树？ 一颗有根树T，简称为树。它是n个结点的有限集合，它要么为空集，要么是由一个根节点和子树构成；每棵子树的根节点有且仅有一个直接前驱，子树的个数称为根节点的分支数  2.树的术语 结点的度：结点所拥有的子树棵树 树的深度：树中距离根节点最远的结点所处的层次称为树的深度 树的高度：叶结点高度"><meta name="keywords" content="数据结构,树"><meta name="author" content="沈安歌"><meta name="copyright" content="沈安歌"><meta name="format-detection" content="telephone=no"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://yoursite.com/2020/07/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%91%E7%AF%87/"><meta http-equiv="Cache-Control" content="no-transform"><meta http-equiv="Cache-Control" content="no-siteapp"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//fonts.googleapis.com" crossorigin="crossorigin"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><meta property="og:type" content="article"><meta property="og:title" content="数据结构之树篇"><meta property="og:url" content="http://yoursite.com/2020/07/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%91%E7%AF%87/"><meta property="og:site_name" content="少年"><meta property="og:description" content="树 树形结构是以分支关系定义的层次结构，是一类重要的非线性数据结构     第一节  树的基本概念1.什么是树？ 一颗有根树T，简称为树。它是n个结点的有限集合，它要么为空集，要么是由一个根节点和子树构成；每棵子树的根节点有且仅有一个直接前驱，子树的个数称为根节点的分支数  2.树的术语 结点的度：结点所拥有的子树棵树 树的深度：树中距离根节点最远的结点所处的层次称为树的深度 树的高度：叶结点高度"><meta property="og:image" content="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg"><meta property="article:published_time" content="2020-07-12T04:34:19.000Z"><meta property="article:modified_time" content="2020-07-16T15:05:39.934Z"><meta name="twitter:card" content="summary"><script>var activateDarkMode = function () {
+  document.documentElement.setAttribute('data-theme', 'dark')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#000')
+  }
+}
+var activateLightMode = function () {
+  document.documentElement.setAttribute('data-theme', 'light')
+  if (document.querySelector('meta[name="theme-color"]') !== null) {
+    document.querySelector('meta[name="theme-color"]').setAttribute('content', '#fff')
+  }
+}
+
+var getCookies = function (name) {
+  const value = `; ${document.cookie}`
+  const parts = value.split(`; ${name}=`)
+  if (parts.length === 2) return parts.pop().split(';').shift()
+}
+
+var autoChangeMode = 'false'
+var t = getCookies('theme')
+if (autoChangeMode === '1') {
+  var isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  var isLightMode = window.matchMedia('(prefers-color-scheme: light)').matches
+  var isNotSpecified = window.matchMedia('(prefers-color-scheme: no-preference)').matches
+  var hasNoSupport = !isDarkMode && !isLightMode && !isNotSpecified
+
+  if (t === undefined) {
+    if (isLightMode) activateLightMode()
+    else if (isDarkMode) activateDarkMode()
+    else if (isNotSpecified || hasNoSupport) {
+      console.log('You specified no preference for a color scheme or your browser does not support it. I Schedule dark mode during night time.')
+      var now = new Date()
+      var hour = now.getHours()
+      var isNight = hour <= 6 || hour >= 18
+      isNight ? activateDarkMode() : activateLightMode()
+    }
+    window.matchMedia('(prefers-color-scheme: dark)').addListener(function (e) {
+      if (Cookies.get('theme') === undefined) {
+        e.matches ? activateDarkMode() : activateLightMode()
+      }
+    })
+  } else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else if (autoChangeMode === '2') {
+  now = new Date()
+  hour = now.getHours()
+  isNight = hour <= 6 || hour >= 18
+  if (t === undefined) isNight ? activateDarkMode() : activateLightMode()
+  else if (t === 'light') activateLightMode()
+  else activateDarkMode()
+} else {
+  if (t === 'dark') activateDarkMode()
+  else if (t === 'light') activateLightMode()
+}</script><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.css"><link rel="prev" title="七月记录" href="http://yoursite.com/2020/07/16/%E4%B8%83%E6%9C%88%E8%AE%B0%E5%BD%95/"><link rel="next" title="leetcode第一周刷题记录" href="http://yoursite.com/2020/07/04/leetcode%E7%AC%AC%E4%B8%80%E5%91%A8%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Titillium+Web&amp;display=swap"><script>var GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  bookmark: {
+    message_prev: '按',
+    message_next: '键将本页加入书签'
+  },
+  runtime_unit: '天',
+  runtime: false,
+  copyright: {"languages":{"author":"作者: 沈安歌","link":"链接: ","source":"来源: 少年","info":"著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。"}},
+  ClickShowText: undefined,
+  medium_zoom: false,
+  fancybox: true,
+  Snackbar: {"bookmark":{"message_prev":"按","message_next":"键将本页加入书签"},"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#121212","position":"top-center"},
+  justifiedGallery: {
+    js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+    css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+  },
+  baiduPush: false,
+  highlightCopy: true,
+  highlightLang: true,
+  isPhotoFigcaption: false,
+  islazyload: true,
+  isanchor: false    
+}</script><script>var GLOBAL_CONFIG_SITE = { 
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isSidebar: true
+  }</script><noscript><style>
+#nav {
+  opacity: 1
+}
+.justified-gallery img{
+  opacity: 1
+}
+</style></noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.css"><script src="https://cdn.jsdelivr.net/npm/aplayer/dist/APlayer.min.js"></script><script src="https://cdn.jsdelivr.net/npm/meting@1.2.0/dist/Meting.min.js"></script><meta name="generator" content="Hexo 4.2.1"></head><body><div id="loading-box"><div class="loading-left-bg"></div><div class="loading-right-bg"></div><div class="spinner-box"><div class="configure-border-1"><div class="configure-core"></div></div><div class="configure-border-2"><div class="configure-core"></div></div><div class="loading-word">加载中...</div></div></div><canvas class="fireworks"></canvas><div id="mobile-sidebar"><div id="menu_mask"></div><div id="mobile-sidebar-menus"><div class="mobile_author_icon"><img class="avatar-img" src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="mobile_post_data"><div class="mobile_data_item is-center"><div class="mobile_data_link"><a href="/archives/"><div class="headline">文章</div><div class="length_num">4</div></a></div></div><div class="mobile_data_item is-center">      <div class="mobile_data_link"><a href="/tags/"><div class="headline">标签</div><div class="length_num">10</div></a></div></div><div class="mobile_data_item is-center">     <div class="mobile_data_link"><a href="/categories/"><div class="headline">分类</div><div class="length_num">2</div></a></div></div></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down menus-expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div></div></div><i class="fas fa-arrow-right on" id="toggle-sidebar"></i><div id="sidebar"><div class="sidebar-toc"><div class="sidebar-toc__title">目录</div><div class="sidebar-toc__progress"><span class="progress-notice">你已经读了</span><span class="progress-num">0</span><span class="progress-percentage">%</span><div class="sidebar-toc__progress-bar">     </div></div><div class="sidebar-toc__content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#树"><span class="toc-number">1.</span> <span class="toc-text">树</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一节-树的基本概念"><span class="toc-number">1.1.</span> <span class="toc-text">第一节  树的基本概念</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是树？"><span class="toc-number">1.1.1.</span> <span class="toc-text">1.什么是树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-树的术语"><span class="toc-number">1.1.2.</span> <span class="toc-text">2.树的术语</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-树的数据类型"><span class="toc-number">1.1.3.</span> <span class="toc-text">3.树的数据类型</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第二节-二叉树"><span class="toc-number">1.2.</span> <span class="toc-text">第二节  二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是二叉树？"><span class="toc-number">1.2.1.</span> <span class="toc-text">1.什么是二叉树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-二叉树的特点与性质"><span class="toc-number">1.2.2.</span> <span class="toc-text">2.二叉树的特点与性质</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-特殊二叉树"><span class="toc-number">1.2.3.</span> <span class="toc-text">3.特殊二叉树</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-二叉树的数据类型"><span class="toc-number">1.2.4.</span> <span class="toc-text">4.二叉树的数据类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-二叉树的存储表示"><span class="toc-number">1.2.5.</span> <span class="toc-text">5.二叉树的存储表示</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#6-二叉树的遍历及其应用"><span class="toc-number">1.2.6.</span> <span class="toc-text">6. 二叉树的遍历及其应用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第三节-线索二叉树"><span class="toc-number">1.3.</span> <span class="toc-text">第三节  线索二叉树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是线索二叉树？"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 什么是线索二叉树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-什么是线索？"><span class="toc-number">1.3.2.</span> <span class="toc-text">2.什么是线索？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-中序线索二叉树的建立与遍历"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 中序线索二叉树的建立与遍历</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第四节-树与森林"><span class="toc-number">1.4.</span> <span class="toc-text">第四节  树与森林</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-树的存储表示"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. 树的存储表示</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第五节-堆"><span class="toc-number">1.5.</span> <span class="toc-text">第五节 堆</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是堆？"><span class="toc-number">1.5.1.</span> <span class="toc-text">1.什么是堆？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-堆的实现"><span class="toc-number">1.5.2.</span> <span class="toc-text">2.堆的实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第六节-哈夫曼树"><span class="toc-number">1.6.</span> <span class="toc-text">第六节  哈夫曼树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第七节-二叉搜索树"><span class="toc-number">1.7.</span> <span class="toc-text">第七节   二叉搜索树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是二叉搜索树？"><span class="toc-number">1.7.1.</span> <span class="toc-text">1.什么是二叉搜索树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-二叉搜索树的搜索、插入和删除"><span class="toc-number">1.7.2.</span> <span class="toc-text">2. 二叉搜索树的搜索、插入和删除</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#第八节-AVL树"><span class="toc-number">1.8.</span> <span class="toc-text">第八节  AVL树</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-什么是AVL树？"><span class="toc-number">1.8.1.</span> <span class="toc-text">1.什么是AVL树？</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-平衡化旋转"><span class="toc-number">1.8.2.</span> <span class="toc-text">2.平衡化旋转</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-AVL树的插入"><span class="toc-number">1.8.3.</span> <span class="toc-text">3. AVL树的插入</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-AVL树的删除"><span class="toc-number">1.8.4.</span> <span class="toc-text">4.AVL树的删除</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#红黑树"><span class="toc-number">1.9.</span> <span class="toc-text">红黑树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#知识补充"><span class="toc-number">1.10.</span> <span class="toc-text">知识补充</span></a></li></ol></li></ol></div></div></div><div id="body-wrap"><div id="web_bg" data-type="photo"></div><header class="post-bg" id="page-header" style="background-image: url(https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg)"><nav id="nav"><span class="pull-left" id="blog_name"><a class="blog_title" id="site-name" href="/">少年</a></span><span class="pull-right menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page"><i class="fa-fw fas fa-list"></i><span> 其他</span><i class="fas fa-chevron-down menus-expand"></i></a><ul class="menus_item_child"><li><a class="site-page" href="/music/"><i class="fa-fw fas fa-music"></i><span> Music</span></a></li><li><a class="site-page" href="/movies/"><i class="fa-fw fas fa-video"></i><span> Movie</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友情链接</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></div></div><span class="toggle-menu close"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></span></span></nav><div id="post-info"><div id="post-title"><div class="posttitle">数据结构之树篇</div></div><div id="post-meta"><div class="meta-firstline"><time class="post-meta__date"><span class="post-meta__date-created" title="发表于 2020-07-12 12:34:19"><i class="far fa-calendar-alt fa-fw"></i> 发表于 2020-07-12</span><span class="post-meta__separator">|</span><span class="post-meta__date-updated" title="更新于 2020-07-16 23:05:39"><i class="fas fa-history fa-fw"></i> 更新于 2020-07-16</span></time><span class="post-meta__categories"><span class="post-meta__separator">|</span><i class="fas fa-inbox fa-fw post-meta__icon"></i><a class="post-meta__categories" href="/categories/%E7%AE%97%E6%B3%95%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/">算法刷题记录</a></span></div><div class="meta-secondline"> </div><div class="meta-thirdline"><span class="post-meta-pv-cv"><i class="far fa-eye fa-fw post-meta__icon"></i><span>阅读量:</span><span id="busuanzi_value_page_pv"></span></span><span class="post-meta-commentcount"></span></div></div></div></header><main class="layout_post" id="content-inner"><article id="post"><div class="post-content" id="article-container"><h2 id="树"><a href="#树" class="headerlink" title="树"></a>树</h2><blockquote>
+<p>树形结构是以分支关系定义的层次结构，是一类重要的非线性数据结构</p>
+</blockquote>
+<p> <img src= "/img/loading.gif" data-src="/images/%E6%A0%91.png" alt></p>
+<hr>
+<h3 id="第一节-树的基本概念"><a href="#第一节-树的基本概念" class="headerlink" title="第一节  树的基本概念"></a>第一节  树的基本概念</h3><h4 id="1-什么是树？"><a href="#1-什么是树？" class="headerlink" title="1.什么是树？"></a>1.什么是树？</h4><blockquote>
+<p>一颗有根树T，简称为树。它是n个结点的有限集合，它要么为空集，要么是由一个根节点和子树构成；每棵子树的根节点有且仅有一个直接前驱，子树的个数称为根节点的分支数</p>
+</blockquote>
+<h4 id="2-树的术语"><a href="#2-树的术语" class="headerlink" title="2.树的术语"></a>2.树的术语</h4><blockquote>
+<p>结点的度：结点所拥有的子树棵树</p>
+<p>树的深度：树中距离根节点最远的结点所处的层次称为树的深度</p>
+<p>树的高度：叶结点高度为1，非页结点的高度等于她子女的高度的最大值加1</p>
+<p>树的度：结点的度的最大值</p>
+</blockquote>
+<h4 id="3-树的数据类型"><a href="#3-树的数据类型" class="headerlink" title="3.树的数据类型"></a>3.树的数据类型</h4><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Tree&#123;</span><br><span class="line">Root；</span><br><span class="line">val;</span><br><span class="line">child；</span><br><span class="line">siibling（兄弟）</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="第二节-二叉树"><a href="#第二节-二叉树" class="headerlink" title="第二节  二叉树"></a>第二节  二叉树</h3><h4 id="1-什么是二叉树？"><a href="#1-什么是二叉树？" class="headerlink" title="1.什么是二叉树？"></a>1.什么是二叉树？</h4><blockquote>
+<p>一棵二叉树是结点的一个有限集合，该集合或者为空，或者是由一个根结点加上两棵分别成为左子树和右子树的互不相交的二叉树组成</p>
+<p>二叉树的子树TL，TR仍是二叉树</p>
+<p>简单来说，二叉树是根节点只有两个子树的有序树，且子树也是二叉树</p>
+</blockquote>
+<h4 id="2-二叉树的特点与性质"><a href="#2-二叉树的特点与性质" class="headerlink" title="2.二叉树的特点与性质"></a>2.二叉树的特点与性质</h4><blockquote>
+<p>二叉树的最显著的特点就是：<strong>每个结点最多有两个子女，即二叉树中不存在度大于2的结点；且为有序树，即其形态有五种</strong></p>
+<p>性质1：在二叉树的第i层，最多有2^(i-1)个结点</p>
+<p>性质2：深度为k的二叉树最少有k个结点，最多有2^k-1个结点</p>
+<p>性质3：对任何一棵非空二叉树，如果其叶结点数为n0，度为2的非叶结点数为n2，则n0=n2+1；</p>
+</blockquote>
+<h4 id="3-特殊二叉树"><a href="#3-特殊二叉树" class="headerlink" title="3.特殊二叉树"></a>3.特殊二叉树</h4><blockquote>
+<p>满二叉树：每一层结点都达到了最大个数的二叉树；</p>
+<p>完全二叉树：具有n个结点的二叉树，它的每个结点都能与与之深度相同的满二叉树结点从1~n一一对应；【简言之，满二叉树从后面按序缺少数个结点】</p>
+<p>性质1：具有n个结点的完全二叉树的最小深度为[log2（n+1）]（向上取整）</p>
+<p>性质2：将完全二叉树按序编号1，2，3……，可以推知任何已知编号的结点的父节点和子女结点以及层次</p>
+</blockquote>
+<h4 id="4-二叉树的数据类型"><a href="#4-二叉树的数据类型" class="headerlink" title="4.二叉树的数据类型"></a>4.二叉树的数据类型</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TreeNode&#123;</span><br><span class="line">val;</span><br><span class="line">leftchild;</span><br><span class="line">rightchild;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="5-二叉树的存储表示"><a href="#5-二叉树的存储表示" class="headerlink" title="5.二叉树的存储表示"></a>5.二叉树的存储表示</h4><blockquote>
+<p><strong>数组存储表示</strong></p>
+<ol>
+<li><p>完全二叉树的数组存储表示</p>
+<blockquote>
+<p>创建一个数组，在数组Tree[i]中存放编号为i的结点，这种方式利用了完全二叉树的性质，从一个结点推算出其父节点和子女节点、兄弟节点；这种存储表示是存储完全二叉树的最简单、最省存储的方式</p>
+</blockquote>
+</li>
+</ol>
+<ol start="2">
+<li><p>一般二叉树的数组表示</p>
+<p>仿照完全二叉树进行表示，遇到空子树假定有此子树进行编号</p>
+</li>
+</ol>
+</blockquote>
+<blockquote>
+<p><strong>链表存储表示</strong></p>
+<p>数组表示法对于完全二叉树的存储表示非常有效，但表示一般二叉树时，存储空间的利用不是很理想；使用链接表示，可以克服这些缺点</p>
+<p>二叉链表和三叉链表的区别：三叉链表多一个父结点指针</p>
+<p>二叉链表：每一个二叉结点包含数据域data；左子女结点指针leftChild，右子女结点指针rightChild。</p>
+<p>性质：在含有N个结点的二叉链表中右N+1个空链指针域；</p>
+<p>[证明：从下往上考虑，n个结点除了根节点，每个结点只有一个前驱，因此只有n-1个结点被利用，即n+1个指针未被使用]</p>
+<p>二叉链表和三叉链表也可以是静态链表结构</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//输入广义表表示建立二叉树的算法</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="6-二叉树的遍历及其应用"><a href="#6-二叉树的遍历及其应用" class="headerlink" title="6. 二叉树的遍历及其应用"></a>6. 二叉树的遍历及其应用</h4><blockquote>
+<p><strong>二叉树遍历的递归算法</strong></p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//前序遍历</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">BinaryTree</span>&lt;T&gt;:</span>:PreOrder(BinaryTreeNode&lt;T&gt; *subTree, <span class="keyword">void</span>(*visit)(BinaryTreeNode&lt;T&gt; *p))&#123;</span><br><span class="line">        <span class="keyword">if</span>(subTree!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">                 visit(subTree);</span><br><span class="line">                 PreOrder(subTree-&gt;leftchild,visit);</span><br><span class="line">                 PreOrder(subTree-&gt;rightchild,visit)；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//中序遍历</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">BinaryTree</span>&lt;T&gt;:</span>:InOrder(BinaryTreeNode&lt;T&gt; *subTree, <span class="keyword">void</span>(*visit)(BinaryTreeNode&lt;T&gt; *p))&#123;</span><br><span class="line">        <span class="keyword">if</span>(subTree!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">                 InOrder(subTree-&gt;leftchild,visit);</span><br><span class="line">                 visit(subTree); </span><br><span class="line">                 InOrder(subTree-&gt;rightchild,visit)；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//后续遍历</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">BinaryTree</span>&lt;T&gt;:</span>:PostOrder(BinaryTreeNode&lt;T&gt; *subTree, <span class="keyword">void</span>(*visit)(BinaryTreeNode&lt;T&gt; *p))&#123;</span><br><span class="line">        <span class="keyword">if</span>(subTree!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">                 PostOrder(subTree-&gt;leftchild,visit);</span><br><span class="line">                 PostOrder(subTree-&gt;rightchild,visit)；</span><br><span class="line">                 visit(subTree); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p><strong>二叉树遍历的非递归算法</strong>（用栈迭代）</p>
+</blockquote>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//前序遍历 </span></span><br><span class="line"><span class="comment">//每次进入一个结点，立即访问，并把右子女入栈，然后向左子女访问</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stack.h"</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">BinaryTree</span>&lt;T&gt;:</span>:PreOrder(<span class="keyword">void</span>(*visit)(BinaryTreeNode&lt;T&gt; *p))&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;BinaryNode&lt;T&gt;&gt; s;</span><br><span class="line">        BinTreeNode&lt;T&gt; *p = root;<span class="comment">//初始化栈和根结点</span></span><br><span class="line">        S.Push(<span class="literal">NULL</span>);</span><br><span class="line">        <span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">            visit(p);<span class="comment">//访问根节点</span></span><br><span class="line">            <span class="keyword">if</span>(p-&gt;rightchild!=<span class="literal">NULL</span>) S.push(p-&gt;rightchild);<span class="comment">//右子女不空进栈</span></span><br><span class="line">            <span class="keyword">if</span>(p-&gt;leftchild!=<span class="literal">NULL</span>) p=p-leftchild;<span class="comment">//左子女不空向左遍历</span></span><br><span class="line">            <span class="keyword">else</span> S.pop(p);<span class="comment">//左空取上一个结点的右节点，进入右子树遍历</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//中序遍历</span></span><br><span class="line"><span class="comment">//每次遍历到一个节点不访问，先入栈，一直向左遍历，入到左空为止；左空时从栈中取出结点退栈访问，进入该节点的右子树重新一轮循环遍历</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stack.h"</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">BinaryTree</span>&lt;T&gt;:</span>:InOrder(<span class="keyword">void</span>(*visit)(BinaryTreeNode&lt;T&gt; *p))&#123;</span><br><span class="line">        <span class="built_in">stack</span>&lt;BinaryNode&lt;T&gt;&gt; s;</span><br><span class="line">        BinTreeNode&lt;T&gt; *p = root;<span class="comment">//初始化栈和根结点</span></span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            <span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">            S.push(p);</span><br><span class="line">            p=p-&gt;leftchild;</span><br><span class="line">            &#125;<span class="comment">//对一个结点一直遍历到其左子树最左结点</span></span><br><span class="line">            <span class="keyword">if</span>(!S.IsEmpty()) &#123;</span><br><span class="line">                S.pop(p);</span><br><span class="line">                visit(p);</span><br><span class="line">                p=p-&gt;rightchild;</span><br><span class="line">            &#125;<span class="comment">//栈不空退栈,向右走一步</span></span><br><span class="line">        &#125;<span class="keyword">while</span>(p!=<span class="literal">NULL</span>||!S.IsEmpty());<span class="comment">//结点不空栈不空一直遍历</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//后序遍历</span></span><br><span class="line"><span class="comment">//后序遍历比前两个复杂，他在第二次遍历到时也不进行访问，在第三次才进行访问；因此单纯的入栈退栈不能表示三次访问，需要设置访问标志tag</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">struct</span> <span class="title">stkNode</span>&#123;</span></span><br><span class="line">        BinTreeNode&lt;T&gt; *ptr;</span><br><span class="line">        <span class="keyword">enum</span> tag &#123;L.R&#125;;</span><br><span class="line">        stkNode(BinTreeNode&lt;T&gt; *N =<span class="literal">NULL</span>);ptr(N),tag(L)&#123;&#125;  <span class="comment">//构造函数</span></span><br><span class="line">    &#125;<span class="comment">//栈结点的结构体</span></span><br><span class="line"><span class="comment">//算法思路：首先用栈暂存根节点，再向左子树遍历下去，此时根节点的tag=L，表示第一次访问；当访问完左子树退栈时，中序在这里进行访问，而后序不能进行访问，这是第二次，因此更改tag=R，表示我要去遍历右子树了，下次回来就可以访问了；</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"stack.h"</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">BinaryTree</span>&lt;T&gt;:</span>:PostOrder(<span class="keyword">void</span>(*visit)(BinaryTreeNode&lt;T&gt; *p))&#123;</span><br><span class="line">        Stack&lt;stkNode&lt;T&gt;&gt; S;</span><br><span class="line">        stkNode&lt;T&gt; w;</span><br><span class="line">        BinTreeNode&lt;T&gt; *p = root;<span class="comment">//初始化栈和根结点和栈结点</span></span><br><span class="line">        <span class="keyword">do</span>&#123;</span><br><span class="line">            <span class="keyword">while</span>(p!=<span class="literal">NULL</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                w.ptr = p;w.tag = L;S.push(w);<span class="comment">//用栈结点指向p，并把w入栈保存；和中序相似，不同在于栈结点类型，原先是树结点，现在是自己写的结构体</span></span><br><span class="line">                p=p-&gt;leftchild;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">int</span> continue1=<span class="number">1</span>;<span class="comment">//继续循环标记，用于R</span></span><br><span class="line">            <span class="keyword">while</span>(continue1=<span class="number">1</span> &amp;&amp; !S.Empty())&#123;</span><br><span class="line">                S.pop(w);p=w.ptr;<span class="comment">//退栈，用p指向w的ptr指针；</span></span><br><span class="line">                <span class="keyword">switch</span>(w.tag)&#123;</span><br><span class="line">                    <span class="keyword">case</span> L :w.tag =R;S.push(w);</span><br><span class="line">                        continue1=<span class="number">0</span>;<span class="comment">//这里当时L的时候修改继续循环，会导致当前循环停止然后跳出执行do while循环；保证了不会一直进行退栈，而是让其在右子树向左遍历;然后在do while循环里通过int重新赋值，就使得被改过的结点在swith语句里执行case R，continue1值不会被修改，一直循环直到栈空。</span></span><br><span class="line">                        p=p-&gt;rightChild;</span><br><span class="line">                        <span class="keyword">break</span>;<span class="comment">//打破循环</span></span><br><span class="line">                    <span class="keyword">case</span> R：visit(p);<span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;<span class="keyword">while</span>(!S.Empty());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//二叉树的层次遍历</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"queue.h"</span></span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class">    <span class="title">void</span> <span class="title">BinaryTree</span>&lt;T&gt;:</span>:LevelOrder(<span class="keyword">void</span>(*visit)(BinaryTreeNode&lt;T&gt; *p))&#123;</span><br><span class="line">        Queue&lt;BinTreeNode&lt;T&gt;*&gt; Q;</span><br><span class="line">        BinTreeNode&lt;T&gt; *p=root;<span class="comment">//初始化队列和根节点</span></span><br><span class="line">        Q.Enqueue(p);</span><br><span class="line">        <span class="keyword">while</span>(!Q.IsEmpty())&#123;</span><br><span class="line">            Q.DeQueue(p);visit(p);</span><br><span class="line">            <span class="keyword">if</span>(p-&gt;leftchild!=<span class="literal">NULL</span>) Q.EnQueue(p-&gt;leftchild);</span><br><span class="line">            <span class="keyword">if</span>(p-&gt;rightchild!=<span class="literal">NULL</span>) Q.EnQueue(p-&gt;rightchild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="第三节-线索二叉树"><a href="#第三节-线索二叉树" class="headerlink" title="第三节  线索二叉树"></a>第三节  线索二叉树</h3><h4 id="1-什么是线索二叉树？"><a href="#1-什么是线索二叉树？" class="headerlink" title="1. 什么是线索二叉树？"></a>1. 什么是线索二叉树？</h4><blockquote>
+<p>二叉树虽然是非线性结构，但是二叉树的遍历却为二叉树的结点导出了一个线性序列，因此，二叉树的节点存在关于这个线性序列的前驱和后继</p>
+<p>可以像链表一样按序依次遍历得到相应序列的二叉树称为线索二叉树</p>
+</blockquote>
+<h4 id="2-什么是线索？"><a href="#2-什么是线索？" class="headerlink" title="2.什么是线索？"></a>2.什么是线索？</h4><blockquote>
+<p>为了实现线索二叉树的想法，就需要对每个结点记录下当前结点遍历的前驱和后继结点。为了不浪费存储空间没利用空的n+1个指针域，空的leftchild结点存放结点的前驱节点指针，空的rightchild存放当前结点的后继指针；这一类指示前驱和后继的指针叫做“<strong>线索</strong>”。</p>
+</blockquote>
+<h4 id="3-中序线索二叉树的建立与遍历"><a href="#3-中序线索二叉树的建立与遍历" class="headerlink" title="3. 中序线索二叉树的建立与遍历"></a>3. 中序线索二叉树的建立与遍历</h4><blockquote>
+<p>为了区别线索和子女指针，在每个节点中设置两个标志ltag和rtag；</p>
+</blockquote>
+<blockquote>
+<p><strong>建立</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//利用中序遍历对二叉树进行中序线索化 </span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"> <span class="title">void</span> <span class="title">ThreadTree</span>&lt;T&gt;:</span>:createInThread(ThreadNode&lt;T&gt; *current,ThreadNode&lt;T&gt; *&amp; pre)&#123;</span><br><span class="line">     <span class="keyword">if</span>(current == <span class="literal">NULL</span>) <span class="keyword">return</span>;</span><br><span class="line">     creatInThread(current-&gt;left,pre);<span class="comment">//对左子树进行线索化，当递归到最左结点是pre==NULL，递归结束回来时，pre时根节点的前驱；</span></span><br><span class="line">     <span class="keyword">if</span>(current-&gt;leftchild==<span class="literal">NULL</span>)&#123;current-&gt;left=pre;current-&gt;ltag=<span class="number">1</span>;&#125;<span class="comment">//建立当前结点的前驱线索（递归真正执行的语句）</span></span><br><span class="line">     <span class="keyword">if</span> (pre!=<span class="literal">NULL</span>&amp;&amp;pre-&gt;rightchild==<span class="literal">NULL</span>)&#123;pre-&gt;rightchild=current;pre-&gt;rtag=<span class="number">1</span>;&#125;<span class="comment">//pre不空且右子女不空时，建立pre的后继</span></span><br><span class="line">     pre = current;<span class="comment">//pre之前是在左子树用，现在拉到当前节点，因此在后面执行右子树线索化时pre就是cur</span></span><br><span class="line">     creatInThread(current-&gt;righhtchild,pre)<span class="comment">//对右子树进行递归</span></span><br><span class="line"> &#125;</span><br><span class="line"><span class="comment">//主函数调用</span></span><br><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"> <span class="title">void</span> <span class="title">ThreadTree</span>&lt;T&gt;:</span>:createInThread()&#123;</span><br><span class="line">     ThreadNode&lt;Node&gt; *pre = <span class="literal">NULL</span>;</span><br><span class="line">     <span class="keyword">if</span>(root!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">         creatInThread(root,pre);</span><br><span class="line">         pre-&gt;rightchild=<span class="literal">NULL</span>;pre-&gt;tag=<span class="number">1</span>;</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<blockquote>
+<p><strong>中序遍历</strong></p>
+<p>如果rtag==1，则右子女指针即为直接后继；否则右子女指针指向的是右子女，后继是当前结点右子树中序下的第一个结点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回中序序列下的第一个结点 </span></span><br><span class="line"><span class="keyword">while</span>(current-&gt;ltag==<span class="number">0</span>) current=current-&gt;leftchild</span><br><span class="line"><span class="comment">//如果左子女指针一直指向的不是前驱就一直往左遍历，找到最左下的结点</span></span><br></pre></td></tr></table></figure>
+
+<p>如果ltag==1，则左子女指针指向的即为前驱；否则左子女指针指向的是左子女，前驱是当前节点左子树下的最后一个节点</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//返回中序序列下的最后一个结点</span></span><br><span class="line"><span class="keyword">while</span>(cur-&gt;ratg==<span class="number">0</span>) cur = cur-&gt;rightchild</span><br></pre></td></tr></table></figure>
+
+<p>最左下和最右下结点都不一定是叶结点</p>
+<p><strong>前序遍历</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"> <span class="title">void</span> <span class="title">ThreadTree</span>&lt;T&gt;:</span>:PreOrder(<span class="keyword">void</span>(*visit)(ThreadNode&lt;T&gt; *p))&#123;</span><br><span class="line">     ThreadNode&lt;T&gt; *p = root;</span><br><span class="line">     <span class="keyword">while</span>(p!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">         visit(p);<span class="comment">//先访问根节点</span></span><br><span class="line">         <span class="keyword">if</span>(p-&gt;latg==<span class="number">0</span>) p = p-&gt;leftchild;<span class="comment">//如果没有前驱线索，向左子女访问；</span></span><br><span class="line">         <span class="keyword">else</span> <span class="keyword">if</span>(p-&gt;rtag==<span class="number">0</span>) p = p-&gt;rightchild;<span class="comment">//如果没有左子女而有右子女，向右子女访问；</span></span><br><span class="line">         <span class="keyword">else</span>&#123;</span><br><span class="line">             <span class="keyword">while</span>(p!=<span class="literal">NULL</span>&amp;&amp;p-&gt;rtag==<span class="number">1</span>)</span><br><span class="line">                 p=p-&gt;rightchild;<span class="comment">//这个结点不是后继</span></span><br><span class="line">             <span class="keyword">if</span>(p!=<span class="literal">NULL</span>) p = p-&gt;right;<span class="comment">//他的右子女才是</span></span><br><span class="line">         &#125;<span class="comment">//如果无子女，则向线索访问，一直找到有右子女的结点，这个有右子女的结点的右子女即为后继！</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+</blockquote>
+<hr>
+<h3 id="第四节-树与森林"><a href="#第四节-树与森林" class="headerlink" title="第四节  树与森林"></a>第四节  树与森林</h3><h4 id="1-树的存储表示"><a href="#1-树的存储表示" class="headerlink" title="1. 树的存储表示"></a>1. 树的存储表示</h4><blockquote>
+<ul>
+<li>广义表表示法</li>
+<li>父指针表示法</li>
+<li>子女链表表示法</li>
+<li>子女-兄弟链表表示法</li>
+</ul>
+</blockquote>
+<blockquote>
+<p><strong>子女-兄弟链表表示法</strong></p>
+<p>它的结点是由三个域组成：data、firstchild、nextSibling</p>
+<p>它的firstchild域存放它的第一个子女，nextSibling存放的是他的下一个兄弟的结点地址；</p>
+<p>这种结构便于实现各种树的操作，寻找子女的复杂度是O（d），d是树的度；找父结点的时间复杂度为，O(n)，n为结点个数；</p>
+</blockquote>
+<blockquote>
+<p>树的遍历有两种，深度优先遍历和广度优先遍历；</p>
+<p>深度优先通常有两种，先根次序遍历和后根次序遍历，分别对于前序和中序遍历；</p>
+</blockquote>
+<blockquote>
+<p>森林中每棵树的根结点从第二个开始依次连接到前一棵树的根的有孩子，因此为空的结点有N+1个。树分支节点数+1也即为对应二叉树无右孩子的结点的个数</p>
+</blockquote>
+<hr>
+<h3 id="第五节-堆"><a href="#第五节-堆" class="headerlink" title="第五节 堆"></a>第五节 堆</h3><h4 id="1-什么是堆？"><a href="#1-什么是堆？" class="headerlink" title="1.什么是堆？"></a>1.什么是堆？</h4><blockquote>
+<p>堆是优先级队列的最高效的一种实现方式；简言之，最小堆的堆顶是这个堆中最小的值，前一结点的值均小于或等于其左右子女的值；最大堆则相反；左右子女并不进行大小区分</p>
+</blockquote>
+<h4 id="2-堆的实现"><a href="#2-堆的实现" class="headerlink" title="2.堆的实现"></a>2.堆的实现</h4><blockquote>
+<p>很容易直到堆是一种二叉结构，且是完全二叉树，因此考虑用数组实现；</p>
+<p>其实现可以对已有的堆进行调整，或是新结点加入并调整进行建立</p>
+<p>堆的插入与删除</p>
+<p>堆的插入总是在已经建成的最小堆的后面，这是需要从下至上进行调整</p>
+<p>堆的删除通常是在堆顶进行，即删去具有最大或最小值的元素，因此需要从上至下进行调整</p>
+<p><strong>最小堆的上滑调整算法</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span> &lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>,<span class="title">class</span> <span class="title">E</span>&gt;</span></span><br><span class="line"><span class="class"> <span class="title">void</span> <span class="title">MinHeap</span>&lt;T&gt;:</span>:FilterUp(<span class="keyword">int</span> start)&#123;</span><br><span class="line">     <span class="keyword">int</span> j = start,i=(j<span class="number">-1</span>)/<span class="number">2</span>;E temp = heap[i];<span class="comment">//找到父节点</span></span><br><span class="line">     <span class="keyword">while</span>(j&gt;<span class="number">0</span>)&#123;</span><br><span class="line">         <span class="keyword">if</span>(heap[i]&lt;=temp)<span class="keyword">break</span>;<span class="comment">//父节点小，不调整</span></span><br><span class="line">         <span class="keyword">else</span> &#123;heap[j] = heap[i];j=i;i=(i<span class="number">-1</span>)/<span class="number">2</span>&#125;<span class="comment">//父节点大，父节点下移，指针往上走</span></span><br><span class="line">     &#125;</span><br><span class="line">     heap[j]=temp;<span class="comment">//最后让临时保存的值归位</span></span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p><strong>最小堆的下滑调整算法</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">template</span>&lt;<span class="class"><span class="keyword">class</span> <span class="title">T</span>&gt;</span></span><br><span class="line"><span class="class"><span class="title">void</span> <span class="title">MinHeap</span>&lt;T&gt;:</span>:siftdown(<span class="keyword">int</span> start,<span class="keyword">int</span> m)&#123;</span><br><span class="line">  <span class="keyword">int</span>  i = start,j = <span class="number">2</span>*i+<span class="number">1</span>;<span class="comment">//j是i的左子女</span></span><br><span class="line">  E temp = heap[i];<span class="comment">//临时变量存储i的值</span></span><br><span class="line">  <span class="keyword">while</span>(j&lt;=m)&#123;<span class="comment">//小于指定位置</span></span><br><span class="line">      <span class="keyword">if</span>(j&lt;m&amp;&amp;heap[j]&gt;heap[j+<span class="number">1</span>])j++;<span class="comment">//让j指向i两子女的较小者</span></span><br><span class="line">      <span class="keyword">if</span>(temp &lt;=heap[j]) <span class="keyword">break</span>;<span class="comment">//i小，满足最小堆要求则不做调整</span></span><br><span class="line">      <span class="keyword">else</span> &#123;heap[i]=heap[j];i=j;j=<span class="number">2</span>*j+<span class="number">1</span>;&#125;<span class="comment">//否则交换数值；让i成为子女，j再次成为i的左子女；即完成下滑的操作</span></span><br><span class="line">  &#125;</span><br><span class="line">  heap[i]=temp;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</blockquote>
+<hr>
+<h3 id="第六节-哈夫曼树"><a href="#第六节-哈夫曼树" class="headerlink" title="第六节  哈夫曼树"></a>第六节  哈夫曼树</h3><blockquote>
+<p>哈夫曼树又称最优二叉树，是一类加权路径长度最短的二叉树</p>
+</blockquote>
+<blockquote>
+<p>哈夫曼算法：</p>
+<ul>
+<li><p>根据给定的N个权值，构造N棵扩充二叉树的森林F，其中每个二叉树只有一个带权值的根结点</p>
+</li>
+<li><p>重复以下步骤直到F中仅剩下一棵树为止：</p>
+<p>①选择两颗权值最小的树构造一颗新的二叉树，这颗新的二叉树的根节点的权值是左右两个带权结点的权值之和</p>
+<p>②在F中删去这两个二叉树，把新的二叉树加入</p>
+</li>
+</ul>
+<p>哈夫曼编码：左0右1</p>
+</blockquote>
+<hr>
+<h3 id="第七节-二叉搜索树"><a href="#第七节-二叉搜索树" class="headerlink" title="第七节   二叉搜索树"></a>第七节   二叉搜索树</h3><h4 id="1-什么是二叉搜索树？"><a href="#1-什么是二叉搜索树？" class="headerlink" title="1.什么是二叉搜索树？"></a>1.什么是二叉搜索树？</h4><blockquote>
+<p>二叉搜索树要么是一棵空树，或者是具有下列性质的树：</p>
+<ul>
+<li>每个结点都有一个作为搜索依据的关键码，所有结点的关键码互不相同</li>
+<li>左子树上所有结点的关键码都小于根结点的关键码</li>
+<li>右子树上所有结点的关键码都大于根结点的关键码</li>
+<li>左子树和右子树也是二叉搜索树</li>
+</ul>
+</blockquote>
+<h4 id="2-二叉搜索树的搜索、插入和删除"><a href="#2-二叉搜索树的搜索、插入和删除" class="headerlink" title="2. 二叉搜索树的搜索、插入和删除"></a>2. 二叉搜索树的搜索、插入和删除</h4><blockquote>
+<p><strong>二叉搜索树上的搜索</strong></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">search</span><span class="params">(<span class="keyword">int</span> x , BSTNode *ptr)</span></span>&#123;</span><br><span class="line"><span class="keyword">if</span> (ptr==<span class="literal">NULL</span>) <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line"> <span class="keyword">else</span> <span class="keyword">if</span>(x&lt;ptr-&gt;data) <span class="keyword">return</span> search(x,ptr-&gt;leftchild);</span><br><span class="line"> <span class="keyword">else</span> <span class="keyword">if</span>(x&gt;ptr-&gt;data) <span class="keyword">return</span> search(x,ptr-&gt;rightchild);</span><br><span class="line"> <span class="keyword">else</span> <span class="keyword">return</span> ptr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>比较此处不超过二叉搜索树的高度H</p>
+</blockquote>
+<blockquote>
+<p><strong>二叉搜索树的插入</strong></p>
+<p>插入之前必须先检查这个元素是否在书中已经存在，所以需要先使用搜索算法检查</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">insert</span><span class="params">(&amp;el,BSTNode * &amp; ptr)</span></span>&#123;</span><br><span class="line"> <span class="keyword">if</span>(ptr==<span class="literal">NULL</span>)&#123;</span><br><span class="line">     ptr=<span class="keyword">new</span> BSTNode(e1);</span><br><span class="line">     <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line"> &#125;<span class="comment">//若为空，即没找到，创建新的结点插入</span></span><br><span class="line"> <span class="keyword">else</span> <span class="keyword">if</span>(e1&lt;ptr-&gt;data) insert(e1,ptr-&gt;leftchild);<span class="comment">//小于向左</span></span><br><span class="line"> <span class="keyword">else</span> <span class="keyword">if</span>(e1&gt;ptr-&gt;data) insert(e1,ptr-&gt;rightchild);<span class="comment">//大于向右</span></span><br><span class="line"> <span class="keyword">else</span> <span class="keyword">return</span> <span class="literal">false</span>;<span class="comment">//等于返回失败</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p><strong>二叉搜索树的删除</strong></p>
+<p>删除的三种情况：</p>
+<ul>
+<li><p>被删除结点的右子树为空，用左子女结点填补被删除结点</p>
+</li>
+<li><p>被删除结点的左子树空，用右子女填补</p>
+</li>
+<li><p>左右都不空，找右子树中序下的第一个子女填补（即该结点必须大于左子树且小于右子树）</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">bool</span> <span class="title">remove</span><span class="params">(<span class="keyword">int</span> x,BSTNode * &amp; ptr)</span></span>&#123;</span><br><span class="line">    BSTNode *temp;</span><br><span class="line">    <span class="keyword">if</span>(ptr!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">        <span class="keyword">if</span>(x&lt;ptr-&gt;data) <span class="built_in">remove</span>(x,ptr-&gt;leftchild);</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(x&gt;ptr-&gt;data) <span class="built_in">remove</span>(x.ptr-&gt;rightchild);</span><br><span class="line">                 <span class="keyword">else</span> <span class="keyword">if</span>(ptr-&gt;leftchild!=<span class="literal">NULL</span>&amp;&amp;ptr-&gt;rightchild!=<span class="literal">NULL</span>)&#123;</span><br><span class="line">                     temp = ptr-&gt;rightchild;</span><br><span class="line">                     <span class="keyword">while</span>(temp-&gt;leftchild!=<span class="literal">NULL</span>) temp=temp-&gt;leftchild;</span><br><span class="line">                     ptr-&gt;data = temp-&gt;data;</span><br><span class="line">                     <span class="built_in">remove</span>(ptr-&gt;data,ptr-&gt;rightchild);</span><br><span class="line">                 &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            temp = ptr;</span><br><span class="line">            <span class="keyword">if</span>(ptr-&gt;leftchild==<span class="literal">NULL</span>) ptr=ptr-&gt;rightchild;<span class="comment">//该ptr指针是ptr父结点的子女指针，若为空即为头结点指针；</span></span><br><span class="line">            <span class="keyword">else</span> ptr=ptr-&gt;leftchild;</span><br><span class="line">            <span class="keyword">delete</span> temp;<span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>总结算法流程：</p>
+<ul>
+<li>不空<ul>
+<li>大于</li>
+<li>小于</li>
+<li>等于<ul>
+<li><strong>左右不空</strong></li>
+<li><strong>左右一为空</strong></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>空</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<hr>
+<h3 id="第八节-AVL树"><a href="#第八节-AVL树" class="headerlink" title="第八节  AVL树"></a>第八节  AVL树</h3><h4 id="1-什么是AVL树？"><a href="#1-什么是AVL树？" class="headerlink" title="1.什么是AVL树？"></a>1.什么是AVL树？</h4><blockquote>
+<p>AVL树又称为高度平衡的二叉搜索树；即在二叉搜索树的基础上，保证左右子树高度之差的绝对值不超过1，尽量保证树的高度最低，减少树的平均搜索长度。平衡因子是左右高度之差，取-1、0、1，不同的书有不同的取法，有的左子树高度减去右子树，有的则相反。</p>
+</blockquote>
+<h4 id="2-平衡化旋转"><a href="#2-平衡化旋转" class="headerlink" title="2.平衡化旋转"></a>2.平衡化旋转</h4><blockquote>
+<p><strong>左单旋转</strong></p>
+<p><img src= "/img/loading.gif" data-src="/images/%E5%B7%A6%E5%8D%95%E6%97%8B%E8%BD%AC.png" alt></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//右子树比左子树高，对以ptr为根的AVL树做左单旋转</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotateL</span><span class="params">(AVLNode * &amp; ptr)</span></span>&#123;</span><br><span class="line"> AVLNode subl = ptr;</span><br><span class="line"> ptr=ptr-&gt;right;</span><br><span class="line"> subl-&gt;right=ptr-&gt;left;</span><br><span class="line"> ptr-&gt;left=subl;</span><br><span class="line"> ptr-&gt;bf=subl-&gt;bf=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p><strong>右单旋转</strong></p>
+<p><img src= "/img/loading.gif" data-src="/images/%E5%8F%B3%E5%8D%95%E6%97%8B%E8%BD%AC.png" alt></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotateR</span><span class="params">(AVLNode * &amp; ptr)</span></span>&#123;</span><br><span class="line"> AVL subr=ptr;</span><br><span class="line"> ptr=ptr-&gt;left;</span><br><span class="line"> subr-&gt;left=ptr-&gt;right;</span><br><span class="line"> ptr-&gt;right=subr;</span><br><span class="line"> ptr-&gt;bf=subr-&gt;bf=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p><strong>先左后右旋转</strong></p>
+<p><img src= "/img/loading.gif" data-src="/images/%E5%B7%A6%E5%8F%B3%E5%8F%8C%E6%97%8B1.png" alt></p>
+<p><img src= "/img/loading.gif" data-src="/images/%E5%B7%A6%E5%8F%B3%E5%8F%8C%E6%97%8B2.png" alt></p>
+<p><img src= "/img/loading.gif" data-src="/images/%E5%B7%A6%E5%8F%B3%E5%8F%8C%E6%97%8B3.png" alt></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotateLR</span><span class="params">(AVLNode * &amp; ptr)</span></span>&#123;</span><br><span class="line"> AVLNode *subr=ptr;</span><br><span class="line"> subl=ptr-&gt;left;</span><br><span class="line"> ptr=subl-&gt;right;</span><br><span class="line"> subl-&gt;right=ptr-&gt;left;</span><br><span class="line"> ptr-&gt;left=subl;</span><br><span class="line"> <span class="keyword">if</span>(ptr-&gt;bf&lt;=<span class="number">0</span>) subl-&gt;bf=<span class="number">0</span>;</span><br><span class="line"> <span class="keyword">else</span> subl-&gt;bf=<span class="number">1</span>;</span><br><span class="line"> subr-&gt;ltfe=ptr-&gt;right;</span><br><span class="line"> ptr-&gt;right=subr;</span><br><span class="line"> <span class="keyword">if</span>(ptr-&gt;bf=<span class="number">-1</span>) subr-&gt;bf=<span class="number">1</span>;</span><br><span class="line"> <span class="keyword">else</span> sbur-&gt;bf=<span class="number">0</span>;</span><br><span class="line"> ptr-&gt;bf=<span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<blockquote>
+<p><strong>先右后左旋转</strong></p>
+<p><img src= "/img/loading.gif" data-src="/images/%E5%8F%B3%E5%B7%A6%E5%8F%8C%E6%97%8B1.png" alt></p>
+<p><img src= "/img/loading.gif" data-src="/images/%E5%8F%B3%E5%B7%A6%E5%8F%8C%E6%97%8B2.png" alt></p>
+<p><img src= "/img/loading.gif" data-src="/images/%E5%8F%B3%E5%B7%A6%E5%8F%8C%E6%97%8B3.png" alt></p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rotateRL</span><span class="params">(AVLNode * &amp; ptr)</span></span>&#123;</span><br><span class="line"> AVLNode *subl=ptr;subr=subl-&gt;right;</span><br><span class="line"> ptr=subr-&gt;left;</span><br><span class="line"> subr-&gt;left=ptr-&gt;right;</span><br><span class="line"> ptr-&gt;right=subr;</span><br><span class="line"> <span class="keyword">if</span>(ptr-&gt;bf&gt;=<span class="number">0</span>) subr-&gt;bf=<span class="number">0</span>;</span><br><span class="line"> <span class="keyword">else</span> subr-&gt;bf=<span class="number">1</span>;</span><br><span class="line"> subl-&gt;right=ptr-&gt;left;</span><br><span class="line"> ptr-&gt;left=subl;</span><br><span class="line"> <span class="keyword">if</span>(ptr-&gt;bf==<span class="number">1</span>) subl-&gt;bf=<span class="number">-1</span>;</span><br><span class="line"> <span class="keyword">else</span> subl-&gt;bf =<span class="number">0</span>;</span><br><span class="line"> ptr-&gt;bf= <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="3-AVL树的插入"><a href="#3-AVL树的插入" class="headerlink" title="3. AVL树的插入"></a>3. AVL树的插入</h4><h4 id="4-AVL树的删除"><a href="#4-AVL树的删除" class="headerlink" title="4.AVL树的删除"></a>4.AVL树的删除</h4><hr>
+<h3 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h3><h3 id="知识补充"><a href="#知识补充" class="headerlink" title="知识补充"></a>知识补充</h3><blockquote>
+<p>1.一棵有N个结点的树的所有结点的度数与分支数有关，从下往上数有N-1个分支，也即所有结点的度数之和是分支数N-1</p>
+<p>2.树的路径长度是从树根到每个结点的路径长度的<strong>总和</strong>，根到每个结点的路径长度的最大值应是树的高度减一</p>
+<p>3.对于完全二叉树可以由结点数N推出度0，1，2的结点的个数。完全二叉树最多只有一个度为1的结点，请自行推导下列情况：</p>
+<ul>
+<li>完全二叉树有偶数个结点</li>
+<li>完全二叉树有奇数个结点</li>
+</ul>
+<p>4.含有N个结点的M叉树的最小高度，请给出推导</p>
+<p>5.度为M的树中，有N1个度为1的结点，有N2个度为2的结点……有NM个度为M的结点，请给出叶子节点的推导式</p>
+<p>6.度为2的有序树中，若某个结点只有一个孩子，则这个孩子就无需区分左右次序；因此不是二叉树</p>
+</blockquote>
+</div><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">文章作者: </span><span class="post-copyright-info"><a href="mailto:undefined">沈安歌</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">文章链接: </span><span class="post-copyright-info"><a href="http://yoursite.com/2020/07/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%91%E7%AF%87/">http://yoursite.com/2020/07/12/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8B%E6%A0%91%E7%AF%87/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来自 <a href="http://yoursite.com" target="_blank">少年</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">数据结构</a><a class="post-meta__tags" href="/tags/%E6%A0%91/">树</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css"/><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js"></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/07/16/%E4%B8%83%E6%9C%88%E8%AE%B0%E5%BD%95/"><img class="prev-cover" data-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">上一篇</div><div class="prev_info">七月记录</div></div></a></div><div class="next-post pull-right"><a href="/2020/07/04/leetcode%E7%AC%AC%E4%B8%80%E5%91%A8%E5%88%B7%E9%A2%98%E8%AE%B0%E5%BD%95/"><img class="next-cover" data-src="https://i.loli.net/2020/05/01/gkihqEjXxJ5UZ1C.jpg" onerror="onerror=null;src='/img/404.jpg'"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">leetcode第一周刷题记录</div></div></a></div></nav></article></main><footer id="footer" data-type="color"><div id="footer-wrap"><div class="copyright">&copy;2020 By 沈安歌</div><div class="framework-info"><span>驱动 </span><a href="https://hexo.io" target="_blank" rel="noopener"><span>Hexo</span></a><span class="footer-separator">|</span><span>主题 </span><a href="https://github.com/jerryc127/hexo-theme-butterfly" target="_blank" rel="noopener"><span>Butterfly</span></a></div></div></footer></div><section class="rightside" id="rightside"><div id="rightside-config-hide"><button id="readmode" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="font_plus" title="放大字体"><i class="fas fa-plus"></i></button><button id="font_minus" title="缩小字体"><i class="fas fa-minus"></i></button><button class="translate_chn_to_cht" id="translateLink" title="简繁转换">繁</button><button id="darkmode" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button></div><div id="rightside-config-show"><button id="rightside_config" title="设置"><i class="fas fa-cog"></i></button><button class="close" id="mobile-toc-button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></section><script src="https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js"></script><script src="/js/utils.js"></script><script src="/js/main.js"></script><script src="/js/tw_cn.js"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js"></script><script src="https://cdn.jsdelivr.net/npm/animejs@latest/anime.min.js"></script><script src="/js/third-party/fireworks.js"></script><script src="https://cdn.jsdelivr.net/npm/node-snackbar/dist/snackbar.min.js"></script><script id="ribbon_piao" mobile="true" src="/js/third-party/piao.js"></script><script id="canvas_nest" color="0,0,255" opacity="0.7" zIndex="-1" count="30" mobile="false" src="/js/third-party/canvas-nest.js"></script><script src="/js/third-party/activate-power-mode.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+document.body.addEventListener('input', POWERMODE);
+</script><script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><script src="https://cdn.jsdelivr.net/npm/instant.page/instantpage.min.js" type="module" defer></script><script src="https://cdn.jsdelivr.net/npm/vanilla-lazyload/dist/lazyload.iife.min.js" async></script><script>var endLoading = function () {
+  document.body.style.overflow = 'auto';
+  document.getElementById('loading-box').classList.add("loaded")
+}
+window.addEventListener('load',endLoading)</script></body></html>
